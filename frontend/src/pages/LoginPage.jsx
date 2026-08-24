@@ -19,7 +19,11 @@ const LoginPage = () => {
     } catch (err) {
       const data = err.response?.data;
       if (data?.detail) {
-        setError(data.detail);
+        if (data.detail.toLowerCase().includes('no active account')) {
+          setError('We could not sign you in with those details. Check your username and password, or create a new account.');
+        } else {
+          setError(data.detail);
+        }
       } else if (data) {
         const messages = Object.values(data).flat().join(' ');
         setError(messages);

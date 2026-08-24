@@ -23,8 +23,13 @@ const RegisterPage = () => {
     } catch (err) {
       const data = err.response?.data;
       if (data) {
-        const messages = Object.values(data).flat().join(' ');
-        setError(messages);
+        const usernameError = data.username?.[0];
+        if (usernameError?.toLowerCase().includes('already exists')) {
+          setError('That username is already registered. Please sign in instead or choose a different username.');
+        } else {
+          const messages = Object.values(data).flat().join(' ');
+          setError(messages);
+        }
       } else {
         setError('Registration failed. Please try again.');
       }
